@@ -20,4 +20,7 @@ public interface ProductService {
 	public Mono<ProductDto> update(Mono<ProductDto> product, String id);
 	
 	public Mono<Void> deleteById(String id);
+	
+	public Mono<Void> findByStatusAndIfTrueThenPriceX5ElsePriceX2AndUpdateAll();
+	public Mono<Void> findByStatusAndUpdateRact(Boolean status);
 }

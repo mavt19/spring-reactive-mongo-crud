@@ -13,4 +13,5 @@ public class ProductDto {
 	private String name;
 	private int qty;
 	private double price;
+	private boolean status;
 }
