@@ -1,0 +1,36 @@
+#server:
+#  port: ${PORT:0}    
+server:
+  port: 8080      
+spring:
+  application:
+    name: crud-mongo-webflux
+      
+#  datasource:
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/db_microservices
+#    username: root
+#    password: sa
+#  jpa:
+#    database-platform: org.hibernate.dialect.MariaDB103Dialect
+#    hibernate.ddl-auto: update
+#    generate-ddl: true
+#    show-sql: true
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/crud_mongo_webflux
+#      authentication-database: admin
+#      username: root
+#      password: root
+#      database: test_db
+#      port: 27017
+#      host: localhost    
+#logging.level.org.springframework.data.mongodb.core.ReactiveMongoTemplate=DEBUG
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            core:
+              ReactiveMongoTemplate: DEBUG    
