@@ -80,4 +80,17 @@ public class ProductController {
 //		return productService.deleteById(id)
 //				.map(x-> ResponseEntity.ok().body(x));
 	}
+	
+	@PutMapping("/update-all-products-by-status")
+	public Mono<ResponseEntity<Void>> updateProductByStatus() {
+		return productService.findByStatusAndIfTrueThenPriceX5ElsePriceX2AndUpdateAll()
+				.map(x-> ResponseEntity.noContent().build());
+	}
+	
+	@PutMapping("/update-product-by-status")
+	public Mono<ResponseEntity<Void>> updateProductByStatus(@RequestParam boolean status) {
+		return productService.findByStatusAndUpdateRact(status)
+				.map(x-> ResponseEntity.noContent().build());
+	}
+	
 }

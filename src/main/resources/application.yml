@@ -19,6 +19,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/crud_mongo_webflux
+      auto-index-creation: true
 #      authentication-database: admin
 #      username: root
 #      password: root

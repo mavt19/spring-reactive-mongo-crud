@@ -2,8 +2,10 @@ package com.bns.reactive.mongo.services.impl;
 
 import org.springframework.data.domain.Range;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bns.reactive.mongo.models.dto.ProductDto;
+import com.bns.reactive.mongo.models.entity.Product;
 import com.bns.reactive.mongo.models.repository.ProductRepository;
 import com.bns.reactive.mongo.services.ProductService;
 import com.bns.reactive.mongo.utils.AppUtils;
@@ -58,6 +60,38 @@ public class ProductServiceImpl implements ProductService{
 	public Mono<Void> deleteById(String id) {
 		// TODO Auto-generated method stub
 		return productRepository.deleteById(id);
+	}
+
+	@Override
+	@Transactional
+	public Mono<Void> findByStatusAndIfTrueThenPriceX5ElsePriceX2AndUpdateAll() {
+		// TODO Auto-generated method stub
+		Flux<Product> trueProducts = productRepository.findByStatus(true)
+		.map(product -> {
+			product.setPrice(product.getPrice() * 5);
+			return product;
+		}).log();
+		
+		Flux<Product> falseProducts = productRepository.findByStatus(false)
+		.map(product -> {
+			product.setPrice(product.getPrice() * 2);
+			return product;
+		}).log();
+		
+		return Mono.when(productRepository.saveAll(trueProducts), productRepository.saveAll(falseProducts));
+	}
+	
+	@Override
+	@Transactional
+	public Mono<Void> findByStatusAndUpdateRact(Boolean status) {
+		// TODO Auto-generated method stub
+		Flux<Product> falseProducts = productRepository.findByStatus(status)
+		.map(product -> {
+			product.setPrice(product.getPrice() * 2);
+			return product;
+		}).log();
+		
+		return productRepository.saveAll(falseProducts).then();
 	}
 	
 }
