@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bns.reactive.mongo.clients.dto.UserResponse;
+import com.bns.reactive.mongo.clients.service.UserClient;
 import com.bns.reactive.mongo.exceptions.NotFoundException;
 import com.bns.reactive.mongo.models.dto.ProductDto;
 import com.bns.reactive.mongo.services.ProductService;
@@ -27,7 +29,14 @@ import reactor.core.publisher.Mono;
 public class ProductController {
 
 	private final ProductService productService;
+	private final UserClient userClient;
 
+	@GetMapping("/users")
+	public ResponseEntity<Flux<UserResponse>> findallUsers() {
+		Flux<UserResponse> products = userClient.getUsers();
+		return ResponseEntity.ok().body(products);
+	}
+	
 	@GetMapping
 	public ResponseEntity<Flux<ProductDto>> findall() {
 		Flux<ProductDto> products = productService.findAll();
